@@ -127,7 +127,7 @@ GEM
     bullet (6.1.5)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
-    byebug (11.1.1)
+    byebug (11.1.3)
     cancancan (3.0.1)
     capybara (3.31.0)
       addressable
@@ -437,12 +437,12 @@ GEM
       webrick
     protective (0.2.0)
       activerecord
-    pry (0.14.1)
+    pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
-    pry-byebug (3.7.0)
+    pry-byebug (3.10.1)
       byebug (~> 11.0)
-      pry (~> 0.10)
+      pry (>= 0.13, < 0.15)
     pry-doc (1.2.0)
       pry (~> 0.11)
       yard (~> 0.9.11)
