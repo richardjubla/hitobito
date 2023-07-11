@@ -401,9 +401,9 @@ GEM
     oat (0.5.0)
       activesupport
     orm_adapter (0.5.0)
-    paper_trail (11.1.0)
-      activerecord (>= 5.2)
-      request_store (~> 1.1)
+    paper_trail (14.0.0)
+      activerecord (>= 6.0)
+      request_store (~> 1.4)
     parallel (1.23.0)
     parallel_tests (2.19.0)
       parallel
@@ -771,7 +771,7 @@ DEPENDENCIES
   nochmal
   nokogiri
   oat
-  paper_trail (~> 11.1)
+  paper_trail
   parallel_tests
   paranoia
   pdf-inspector
