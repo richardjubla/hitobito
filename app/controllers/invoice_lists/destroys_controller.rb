@@ -1,6 +1,4 @@
 class InvoiceLists::DestroysController < CrudController
-  rescue_from CanCan::AccessDenied, with: :handle_access_denied
-
   skip_authorization_check
   skip_authorize_resource
 
@@ -8,9 +6,17 @@ class InvoiceLists::DestroysController < CrudController
 
   helper_method :deletable?
 
+  def destroy
+    authorize!(:destroy, entry)
+
+    raise ActiveRecord::RecordInvalid unless deletable? # is there a better error?
+
+    super
+  end
+
   def show
     @message = entry.message
-    @non_draft_invoice_present = entry.invoices.any? { |i| !(i.draft? || i.cancelled?)  }
+    non_draft_invoice_present
   end
 
   def self.model_class
@@ -28,7 +34,11 @@ class InvoiceLists::DestroysController < CrudController
   end
 
   def deletable?
-    !@non_draft_invoice_present
+    !non_draft_invoice_present
+  end
+
+  def non_draft_invoice_present
+    @non_draft_invoice_present ||= entry.invoices.any? { |i| !(i.draft? || i.cancelled?) }
   end
 
   def entry

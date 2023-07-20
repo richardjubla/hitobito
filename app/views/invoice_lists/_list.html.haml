@@ -16,5 +16,5 @@
       = link_to(icon(:'trash-alt', filled: false),
                 group_invoice_list_invoice_lists_destroy_path(group_id: item.group_id, invoice_list_id: item.id),
                 class: 'action', title: ti(:"link.delete"), alt: ti(:"link.delete"),
-                data: { checkable: true, method: :get },
+                data: { method: :get },
                 remote: true)

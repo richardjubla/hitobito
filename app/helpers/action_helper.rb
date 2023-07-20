@@ -17,6 +17,7 @@ module ActionHelper
   # Standard button action to the edit page of a given record.
   # Uses the current record if none is given.
   def button_action_edit(path = nil, options = {})
+    require 'pry'; binding.pry unless $pstop
     path ||= path_args(entry)
     action_button ti(:"link.edit"),
                   path.is_a?(String) ? path : edit_polymorphic_path(path),
