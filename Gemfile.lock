@@ -151,6 +151,7 @@ GEM
       marcel (~> 1.0)
       nokogiri (~> 1.10, >= 1.10.4)
       rubyzip (>= 1.3.0, < 3)
+    charlock_holmes (0.7.7)
     choice (0.2.0)
     chunky_png (1.4.0)
     ci_reporter (2.0.0)
@@ -718,6 +719,7 @@ DEPENDENCIES
   capybara-screenshot
   carrierwave
   caxlsx (~> 3.4.0)
+  charlock_holmes (~> 0.7.7)
   ci_reporter_rspec
   codez-tarantula
   commonmarker
