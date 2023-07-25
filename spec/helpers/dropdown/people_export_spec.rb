@@ -20,7 +20,8 @@ describe 'Dropdown::PeopleExport' do
     Dropdown::PeopleExport.new(self,
                                user,
                                { controller: 'people', group_id: groups(:top_group).id },
-                               households: true, labels: true)
+                               households: true, labels: true, emails: true,
+                               mailchimp_synchronization_path: 'mailchimp.example.com')
   end
 
   subject { dropdown.to_s }
@@ -32,29 +33,19 @@ describe 'Dropdown::PeopleExport' do
   it 'renders dropdown' do
     is_expected.to have_content 'Export'
     is_expected.to have_selector 'ul.dropdown-menu'
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'CSV'
-      expect(tag).to have_content 'Haushaltsliste'
-      expect(tag).not_to have_selector 'ul.dropdown-submenu'
-    end
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'Etiketten'
-      expect(tag).to have_selector 'ul.dropdown-submenu' do |pdf|
-        expect(pdf).to have_content 'Standard'
-      end
-    end
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'vCard'
-    end
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'MailChimp'
-    end
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'E-Mail Adressen'
-    end
-    is_expected.to have_selector 'a' do |tag|
-      expect(tag).to have_content 'E-Mail Adressen (Outlook)'
-    end
+    is_expected.to have_selector 'li', text: 'CSV'
+    is_expected.to have_selector 'li', text: 'Haushaltsliste'
+
+    is_expected.to have_selector 'li', text: 'Etiketten'
+    is_expected.to have_selector 'li ul.dropdown-menu', text: 'Standard'
+
+    is_expected.to have_selector 'a', text: 'vCard'
+
+    is_expected.to have_selector 'a', text: 'MailChimp'
+
+    is_expected.to have_selector 'a', text: 'E-Mail Adressen'
+
+    is_expected.to have_selector 'a', text: 'E-Mail Adressen (Outlook)'
   end
 
   context 'for global labels' do
