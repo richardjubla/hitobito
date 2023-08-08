@@ -49,6 +49,22 @@ class Group < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   include Globalized
   include MountedAttr
 
+  if layer
+    self.mounted_attr_categories = {
+      messages_letter: [:address_position, :letter_logo],
+      messages_sms_provider: [:username, :password, :provider, :originator]
+    }
+
+    mounted_attr :username, :encrypted
+    mounted_attr :password, :encrypted
+    mounted_attr :provider, :string, enum: PROVIDER_VALUES, default: PROVIDER_VALUES.first
+    mounted_attr :originator, :string
+
+    mount_uploader :carrierwave_letter_logo, GroupSetting::LogoUploader, mount_on: 'letter_logo'
+    has_one_attached :letter_logo
+    mounted_attr :address_position, :string, enum: ADDRESS_POSITION_VALUES, default: ADDRESS_POSITION_VALUES.first
+  end
+
   acts_as_paranoid
   extend Paranoia::RegularScope
 
@@ -57,14 +73,8 @@ class Group < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
 
   has_one_attached :privacy_policy
 
-  mounted_attr :username, :encrypted
-  mounted_attr :password, :encrypted
-  mounted_attr :provider, :string, enum: [:aspsms]
-  mounted_attr :originator, :string
-
-  mount_uploader :carrierwave_picture, GroupSetting::LogoUploader, mount_on: 'picture'
-  has_one_attached :picture
-  mounted_attr :address_position, :string, enum: [:left, :right]
+  PROVIDER_VALUES = %w(aspsms).freeze
+  ADDRESS_POSITION_VALUES = %w(left right).freeze
 
   ### ATTRIBUTES
 
@@ -320,6 +330,16 @@ class Group < ActiveRecord::Base # rubocop:disable Metrics/ClassLength
   def remove_logo=(deletion_param)
     if %w(1 yes true).include?(deletion_param.to_s.downcase)
       logo.purge_later
+    end
+  end
+
+  def remove_letter_logo
+    false
+  end
+
+  def remove_letter_logo=(deletion_param)
+    if %w(1 yes true).include?(deletion_param.to_s.downcase)
+      letter_logo.purge_later
     end
   end
 

@@ -1,0 +1,9 @@
+= f.labeled :letter_logo do
+  = f.file_field :letter_logo, type: :file, accept: GroupSetting::LogoUploader.accept_extensions
+
+  - if upload_exists?(entry, :letter_logo)
+    = f.labeled :remove_letter_logo do
+      = f.boolean_field :remove_letter_logo
+= f.labeled(:address_position) do
+  - Group::ADDRESS_POSITION_VALUES.each do |value|
+    = f.inline_radio_button(:address_position, value, t("activerecord.attributes.group_setting.address_positions.#{value}"))
